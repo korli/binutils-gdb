@@ -449,7 +449,7 @@ case "${targ}" in
     ;;
   arm-*-elf | arm*-*-freebsd* | arm*-*-linux-* | arm*-*-conix* | \
   arm*-*-uclinux* | arm-*-kfreebsd*-gnu | \
-  arm*-*-eabi* )
+  arm*-*-eabi* | arm*-*-haiku*)
     targ_defvec=arm_elf32_le_vec
     targ_selvecs=arm_elf32_be_vec
     ;;
@@ -800,6 +800,11 @@ case "${targ}" in
     targ_selvecs="i386_elf32_vec iamcu_elf32_vec x86_64_elf32_vec i386_aout_linux_vec i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec"
     want64=true
     ;;
+  x86_64-*-haiku*)
+    targ_defvec=x86_64_elf64_vec
+    targ_selvecs="i386_elf32_vec"
+    want64=true
+    ;;
   x86_64-*-nacl*)
     targ_defvec=x86_64_elf32_nacl_vec
     targ_selvecs="i386_elf32_nacl_vec x86_64_elf64_nacl_vec arm_elf32_nacl_be_vec arm_elf32_nacl_le_vec"
@@ -848,6 +853,9 @@ case "${targ}" in
   i[3-7]86-*-beoself* | i[3-7]86-*-beos*)
     targ_defvec=i386_elf32_vec
     targ_selvecs="iamcu_elf32_vec i386_pe_vec i386_pei_vec"
+    ;;
+  i[3-7]86-*-haiku*)
+    targ_defvec=i386_elf32_vec
     ;;
   i[3-7]86-*-interix*)
     targ_defvec=i386_pei_vec
@@ -1040,7 +1048,10 @@ case "${targ}" in
     targ_selvecs=ieee_vec
     targ_underscore=yes
     ;;
-
+  m68*-*-haiku*)
+    targ_defvec=m68k_elf32_vec
+    targ_selvecs="m68k_coff_vec ieee_vec"
+    ;;
   m88*-harris-cxux* | m88*-*-dgux* | m88*-*-sysv4*)
     targ_defvec=m88k_elf32_vec
     targ_selvecs=m88k_coff_bcs_vec
@@ -1095,6 +1106,10 @@ case "${targ}" in
   mips*el-*-netbsd*)
     targ_defvec=mips_elf32_trad_le_vec
     targ_selvecs="mips_elf32_trad_be_vec mips_elf64_trad_be_vec mips_elf64_trad_le_vec mips_ecoff_le_vec mips_ecoff_be_vec"
+    ;;
+  mips*el-*-haiku*)
+    targ_defvec=mips_elf32_le_vec
+    targ_selvecs="mips_elf32_be_vec mips_elf64_be_vec mips_elf64_le_vec mips_ecoff_le_vec mips_ecoff_be_vec"
     ;;
   mips*-*-netbsd*)
     targ_defvec=mips_elf32_trad_be_vec
@@ -1399,6 +1414,11 @@ case "${targ}" in
     targ_defvec=mach_o_be_vec
     targ_selvecs="mach_o_be_vec mach_o_le_vec mach_o_fat_vec pef_vec pef_xlib_vec sym_vec"
     targ_archs="$targ_archs bfd_i386_arch"
+    ;;
+  powerpc-*-haiku*)
+    targ_defvec=powerpc_elf32_vec
+    targ_selvecs="rs6000_xcoff_vec powerpc_elf32_le_vec pef_vec pef_xlib_vec powerpc_xcoff_vec powerpc_boot_vec"
+    targ_cflags=-D__HAIKU_TARGET__
     ;;
   powerpc-*-macos*)
     targ_defvec=powerpc_xcoff_vec
